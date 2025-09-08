@@ -1,5 +1,5 @@
 {
-	"name": "liriacornerpool",
+	"name": "liria-corner-pool",
 	"account_id": "120c95051ce1f7489160b724b3001b84",
 	"main": "./.cloudflare/worker.js",
 	"site": {

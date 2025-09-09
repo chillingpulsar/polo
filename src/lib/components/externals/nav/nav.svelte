@@ -12,16 +12,16 @@
 
 		{
 			title: 'Amenities',
-			href: '#amenities'
+			href: '/#amenities'
 		},
 
 		{
 			title: 'Reviews',
-			href: '#reviews'
+			href: '/#reviews'
 		},
 		{
 			title: 'Contact',
-			href: '#contact'
+			href: '/#contact'
 		}
 	];
 
@@ -38,13 +38,13 @@
 
 		<div class="flex items-center gap-2">
 			<Darkmode />
-			<Button>Book Event Now!</Button>
+			<Button href="/booking">Book Event Now!</Button>
 		</div>
 	</section>
 
 	<Sheet.Root bind:open={showMobileMenu}>
 		<section class="container mx-auto flex items-center px-4 py-2 md:hidden">
-			<Button>Book Now!</Button>
+			<Button href="/booking">Book Now!</Button>
 			<div class="ml-auto flex items-center gap-2">
 				<Darkmode />
 				<Sheet.Trigger class={buttonVariants({ variant: 'ghost' })}>

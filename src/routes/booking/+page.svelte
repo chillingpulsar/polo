@@ -11,6 +11,12 @@
 	import Separator from '$lib/components/internals/separator/separator.svelte';
 	import Label from '$lib/components/internals/label/label.svelte';
 	import * as Select from '$lib/components/internals/select/index';
+	import {
+		type DateValue,
+		DateFormatter,
+		getLocalTimeZone,
+		parseDate
+	} from '@internationalized/date';
 
 	const { data } = $props();
 
@@ -87,7 +93,7 @@
 		<!--Booking Form-->
 		<h1 class="text-2xl font-medium">Booking Form</h1>
 
-		<form method="POST" use:enhance class="mt-10 flex flex-col gap-6">
+		<form method="POST" action="?/bookingEvent" use:enhance class="mt-10 flex flex-col gap-6">
 			<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 				<Form.Field {form} name="email">
 					<Form.Control>
@@ -171,7 +177,22 @@
 					<Form.Control>
 						{#snippet children({ props })}
 							<Form.Label>Step 5: Select Date</Form.Label>
-							<DatePicker />
+
+							<DatePicker
+								bind:selectedDate={
+									() => {
+										if ($formData.date.length > 0) {
+											return parseDate($formData.date) ?? undefined;
+										}
+
+										return undefined;
+									},
+									(x) => {
+										$formData.date = x?.toString() ?? '';
+									}
+								}
+							/>
+							<input type="hidden" name={props.name} value={$formData.date} />
 						{/snippet}
 					</Form.Control>
 					<Form.FieldErrors />
@@ -183,10 +204,10 @@
 							<Form.Label>Step 6: Select Time</Form.Label>
 							<SelectPicker
 								selections={[
-									{ id: '1', name: '07:00 AM - 03:00 PM' },
-									{ id: '2', name: '08:00 AM - 04:00 PM' },
-									{ id: '3', name: '09:00 AM - 05:00 PM' },
-									{ id: '4', name: '10:00 AM - 06:00 PM' }
+									{ id: '07:00 AM - 03:00 PM', name: '07:00 AM - 03:00 PM' },
+									{ id: '08:00 AM - 04:00 PM', name: '08:00 AM - 04:00 PM' },
+									{ id: '09:00 AM - 05:00 PM', name: '09:00 AM - 05:00 PM' },
+									{ id: '10:00 AM - 06:00 PM', name: '10:00 AM - 06:00 PM' }
 								]}
 								bind:selectedId={$formData.time}
 								onChange={(v) => {

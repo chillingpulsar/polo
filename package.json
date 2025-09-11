@@ -54,6 +54,7 @@
   "dependencies": {
     "@inlang/paraglide-js": "^2.3.0",
     "@tabler/icons-svelte": "^3.34.1",
+    "nodemailer": "^7.0.6",
     "runed": "^0.31.1"
   },
   "trustedDependencies": [

@@ -63,16 +63,14 @@
 	<div class="md:mb-30 md:max-w-xs">
 		<div class="flex flex-col">
 			<h1 class="text-center text-5xl font-medium tracking-widest md:text-left">Liria Circle</h1>
-			<h3
-				class="text-center text-3xl font-medium tracking-wider text-muted-foreground md:text-left"
-			>
+			<h3 class="text-center text-3xl font-medium tracking-wider text-foreground md:text-left">
 				Private Pool
 			</h3>
 		</div>
-		<p class="mt-5 text-center text-base leading-normal text-muted-foreground md:text-left">
-			Celebrate with us this summer! Aiming to let you experience utmost enjoyment and boding time
-			with families and friends. The Liria Circle Pool offers tranquil space for relaxation and
-			social gatherings.
+		<p class="mt-5 text-center text-base leading-normal text-foreground md:text-left">
+			Make your events extra special at Liria's Corner Private Pool Resort. With a serene atmosphere
+			and exclusive poolside space, it’s the ideal spot for parties, get-togethers, and bonding with
+			the people who matter most.
 		</p>
 	</div>
 

@@ -84,7 +84,12 @@
 			<Form.Control>
 				{#snippet children({ props })}
 					<Form.Label>Message</Form.Label>
-					<Textarea {...props} bind:value={$formData.message} placeholder="Enter your message" />
+					<Textarea
+						{...props}
+						bind:value={$formData.message}
+						placeholder="Enter your message"
+						class="bg-background"
+					/>
 				{/snippet}
 			</Form.Control>
 			<Form.Description>This is your public display message.</Form.Description>

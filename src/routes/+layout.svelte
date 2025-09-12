@@ -12,6 +12,6 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 <Toaster />
-<ModeWatcher />
+<ModeWatcher defaultTheme="dark" />
 <Nav />
 {@render children?.()}

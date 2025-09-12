@@ -16,22 +16,23 @@
 
 	interface Props {
 		bookingForm: SuperValidated<BookingSchema>;
+		bookingDone: boolean;
 	}
 
-	const { bookingForm }: Props = $props();
+	let { bookingForm, bookingDone = $bindable() }: Props = $props();
 
 	const form = superForm(bookingForm, {
 		validators: zodClient(bookingSchema),
 		id: crypto.randomUUID(),
-		delayMs: 500,
 		timeoutMs: 5000,
+		delayMs: 500,
 		onUpdate: async ({ result }) => {
 			const { status, data } = result;
 
 			switch (status) {
 				case 200:
+					bookingDone = true;
 					toast.success(data.msg);
-
 					break;
 
 				case 401:
@@ -44,7 +45,7 @@
 	const { form: formData, enhance, submitting, delayed } = form;
 
 	const calculateTotal = $derived.by(() => {
-		if ($formData.add_ons && $formData.base_rate) {
+		if ($formData.add_ons || $formData.base_rate) {
 			const addOnsPrice = addOns.find((addOn) => addOn.id === $formData.add_ons)?.price;
 			const baseRatePrice = baseRates.find(
 				(baseRate) => baseRate.id === $formData.base_rate

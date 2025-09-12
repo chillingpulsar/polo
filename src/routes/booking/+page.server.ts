@@ -32,7 +32,7 @@ export const actions: Actions = {
 		if (!form.valid) return fail(400, { form });
 
 		const calculateTotal = () => {
-			if (form.data.add_ons && form.data.base_rate) {
+			if (form.data.add_ons || form.data.base_rate) {
 				const addOnsPrice = addOns.find((addOn) => addOn.id === form.data.add_ons)?.price;
 				const baseRatePrice = baseRates.find(
 					(baseRate) => baseRate.id === form.data.base_rate
@@ -50,7 +50,7 @@ export const actions: Actions = {
 		const emailContent = generateHTMLTemplate(
 			{
 				...form.data,
-				totalPrice: calculateTotal().toString(),
+				totalPrice: calculateTotal().toLocaleString(),
 				transaction_id: crypto.randomUUID()
 			},
 			'src/lib/mailing-templates/success-booking/success-booking.html'
@@ -63,6 +63,6 @@ export const actions: Actions = {
 		});
 
 		if (!success) return fail(401, { form, error });
-		return { form, msg: 'Booked successfully please check your email for the confirmation.' };
+		return { form, msg: 'Booked successfully please check your email for the details.' };
 	}
 };

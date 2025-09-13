@@ -3,7 +3,7 @@
 	import Amenities from './(components)/(amenities)/amenities.svelte';
 	import Reviews from './(components)/(reviews)/reviews.svelte';
 	import Contact from './(components)/(contact)/contact.svelte';
-	import Bg from '$lib/assets/pngs/bg.jpeg';
+	import Bg from '$lib/assets/jpegs/bg.jpeg';
 
 	const { data } = $props();
 </script>

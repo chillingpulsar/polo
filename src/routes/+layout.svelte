@@ -4,6 +4,7 @@
 	import Nav from '$lib/components/externals/nav/nav.svelte';
 	import { ModeWatcher } from 'mode-watcher';
 	import { Toaster } from '$lib/components/internals/sonner/index';
+	import { page } from '$app/state';
 
 	let { children } = $props();
 </script>
@@ -13,5 +14,7 @@
 </svelte:head>
 <Toaster />
 <ModeWatcher defaultTheme="dark" />
-<Nav />
+{#if !page.url.pathname.startsWith('/admin')}
+	<Nav />
+{/if}
 {@render children?.()}

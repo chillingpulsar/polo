@@ -7,4 +7,10 @@ export const baseRates = [
 	{ id: '60-80', name: '60 - 80 pax', price: '18,000 Php' }
 ];
 
-export const addOns = [{ id: 'karaoke', name: 'Karaoke', price: '1,200 Php' }];
+export const addOns = [
+	{ id: 'karaoke', name: 'Karaoke', price: '1,200 Php' },
+	{ id: 'room-w-aircon', name: 'Room w/ aircon', price: '2,500 Php' },
+	{ id: 'room-w-no-aircon', name: 'Room w/ no aircon', price: '1,500 Php' },
+	{ id: 'mineral-water', name: 'Mineral water', price: '100 Php' },
+	{ id: 'gasolito', name: 'Gasolito', price: '350 Php' }
+];

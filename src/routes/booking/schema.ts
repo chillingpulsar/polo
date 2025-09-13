@@ -11,7 +11,8 @@ export const bookingSchema = z.object({
 	}),
 	date: z.string().min(1, { message: 'Must enter a valid date.' }),
 	time: z.string().min(1, { message: 'Must enter a valid time.' }),
-	add_ons: z.string().optional()
+	add_ons: z.array(z.string()).optional(),
+	total_price: z.number()
 });
 
 export type BookingSchema = z.infer<typeof bookingSchema>;

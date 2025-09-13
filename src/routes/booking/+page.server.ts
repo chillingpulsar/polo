@@ -3,8 +3,6 @@ import type { Actions, PageServerLoad } from './$types';
 import { bookingSchema } from './schema';
 import { superValidate } from 'sveltekit-superforms';
 import { fail } from '@sveltejs/kit';
-import { addOns, baseRates } from '$lib';
-import { parsePrice } from '$lib/utils';
 
 export const load: PageServerLoad = async () => {
 	return {
@@ -17,22 +15,6 @@ export const actions: Actions = {
 		const form = await superValidate(request, zod(bookingSchema));
 
 		if (!form.valid) return fail(400, { form });
-
-		const calculateTotal = () => {
-			if (form.data.add_ons || form.data.base_rate) {
-				const addOnsPrice = addOns.find((addOn) => addOn.id === form.data.add_ons)?.price;
-				const baseRatePrice = baseRates.find(
-					(baseRate) => baseRate.id === form.data.base_rate
-				)?.price;
-
-				const addOnsParsed = addOnsPrice ? parsePrice(addOnsPrice) : 0;
-				const baseRateParsed = baseRatePrice ? parsePrice(baseRatePrice) : 0;
-
-				return addOnsParsed + baseRateParsed;
-			}
-
-			return 0;
-		};
 
 		const htmlTemplate = `
 			<!doctype html>
@@ -93,7 +75,7 @@ export const actions: Actions = {
 							<p><span class="highlight">Base Rate:</span> ${form.data.base_rate} guests</p>
 							<p><span class="highlight">Phone Number:</span> ${form.data.phone_number}</p>
 							<p><span class="highlight">Add-ons:</span> ${form.data.add_ons}</p>
-							<p><span class="highlight">Total Price:</span> ${calculateTotal().toLocaleString()} Php</p>
+							<p><span class="highlight">Total Price:</span> ${form.data.total_price.toLocaleString()} Php</p>
 						</div>
 
 						<p>Please proceed to the site on your booked date and provide the transaction id.</p>

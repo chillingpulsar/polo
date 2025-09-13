@@ -54,6 +54,8 @@
 	},
 	"dependencies": {
 		"@inlang/paraglide-js": "^2.3.0",
+		"@supabase/ssr": "^0.7.0",
+		"@supabase/supabase-js": "^2.57.4",
 		"@tabler/icons-svelte": "^3.34.1",
 		"@types/nodemailer": "^7.0.1",
 		"nodemailer": "^7.0.6",

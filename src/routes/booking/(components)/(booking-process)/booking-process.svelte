@@ -1,6 +1,7 @@
 <script lang="ts">
 	import DatePicker from '$lib/components/externals/date-picker/date-picker.svelte';
 	import SelectPicker from '$lib/components/externals/select-picker/select-picker.svelte';
+	import SelectPickerMultiple from '$lib/components/externals/select-picker/select-picker-multiple.svelte';
 	import IconArrowRight from '@tabler/icons-svelte/icons/arrow-right';
 	import * as Form from '$lib/components/internals/form/index';
 	import { Input } from '$lib/components/internals/input/index';
@@ -45,23 +46,30 @@
 	const { form: formData, enhance, submitting, delayed } = form;
 
 	const calculateTotal = $derived.by(() => {
-		if ($formData.add_ons || $formData.base_rate) {
-			const addOnsPrice = addOns.find((addOn) => addOn.id === $formData.add_ons)?.price;
-			const baseRatePrice = baseRates.find(
-				(baseRate) => baseRate.id === $formData.base_rate
-			)?.price;
+		const baseRatePrice =
+			baseRates.find((baseRate) => baseRate.id === $formData.base_rate)?.price ?? '0';
 
-			const addOnsParsed = addOnsPrice ? parsePrice(addOnsPrice) : 0;
-			const baseRateParsed = baseRatePrice ? parsePrice(baseRatePrice) : 0;
+		if ($formData.add_ons) {
+			const addOnsPrice = addOns.reduce((total, addOn) => {
+				if ($formData?.add_ons?.includes(addOn.id)) {
+					return total + parsePrice(addOn.price);
+				}
+				return total;
+			}, 0);
 
-			return addOnsParsed + baseRateParsed;
+			return addOnsPrice + parsePrice(baseRatePrice);
 		}
 
-		return 0;
+		return parsePrice(baseRatePrice);
+	});
+
+	$effect(() => {
+		$formData.total_price = calculateTotal ?? 0;
 	});
 </script>
 
 <form method="POST" action="?/bookingEvent" use:enhance class="mt-10 flex flex-col gap-6">
+	<input type="hidden" name="total_price" value={$formData.total_price} />
 	<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 		<Form.Field {form} name="email">
 			<Form.Control>
@@ -185,18 +193,18 @@
 			<Form.Control>
 				{#snippet children({ props })}
 					<Form.Label>Optional: Select Add-On</Form.Label>
-					<SelectPicker
+					<SelectPickerMultiple
 						placeholder="Select an add-on"
 						selections={addOns}
-						bind:selectedId={
+						bind:selectedIds={
 							() => {
 								if ($formData.add_ons) {
 									return $formData.add_ons;
 								}
-								return '';
+								return [];
 							},
 							(x) => {
-								$formData.add_ons = x;
+								$formData.add_ons = x ?? [];
 							}
 						}
 						onChange={(v) => {
@@ -208,7 +216,7 @@
 								{selected.name} - <b class="text-muted-foreground">({selected.price})</b>
 							</Select.Item>
 						{/snippet}
-					</SelectPicker>
+					</SelectPickerMultiple>
 					<input type="hidden" name={props.name} value={$formData.add_ons} />
 				{/snippet}
 			</Form.Control>
@@ -219,7 +227,7 @@
 	<div class="flex flex-col gap-2 md:ml-auto">
 		{#if $formData.add_ons || $formData.base_rate}
 			<h4 class="text-xl text-muted-foreground">
-				Total: {calculateTotal.toLocaleString()} Php
+				Total: {calculateTotal.toLocaleString() ?? '0'} Php
 			</h4>
 		{/if}
 

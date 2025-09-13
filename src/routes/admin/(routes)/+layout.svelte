@@ -14,7 +14,7 @@
 		<div class="h-[3rem]">
 			<SiteHeader />
 		</div>
-		<div class="flex max-h-[calc(100dvh-4rem)] overflow-auto">
+		<div class="max-h-[calc(100dvh-4rem)] w-full overflow-auto">
 			{@render children?.()}
 		</div>
 	</Sidebar.Inset>
